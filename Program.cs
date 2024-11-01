@@ -1,50 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
-namespace PrimeNumbersBetween
+using static System.Net.Mime.MediaTypeNames;
+
+namespace mirror_number
 {
-    class Program
+    internal class Program
     {
         static void Main(string[] args)
-            //When we define a member as static, the member belongs to the class itself, not to a specific object of that class.
+            //The expression: string[] args is an array of strings that is sent as an input parameter to the Main method.This array is used to receive command line arguments.That is, when you run the program from the command line, you can give the program additional values ​​that are stored in this array.
+            //If a method is defined with void , it means that the method does something(such as print some text or perform a calculation) but does not return any data to the place where it was called.
         {
             Console.Write("Enter the first number (m): ");
-            int m = int.Parse(Console.ReadLine()); /*دستور Parse برای تبدیل رشته‌ها به نوع دیگری از داده‌ها استفاده می‌شود.*/
-
-            Console.Write("Enter the second number (n): ");
+            int m = int.Parse(Console.ReadLine());
+        Console.Write("Enter the second number (n): ");
             int n = int.Parse(Console.ReadLine());
 
-            Console.WriteLine($"Prime numbers between {m} and {n}:"); 
-            //کاراکتر $ به شما این امکان را می‌دهد که متغیرها و عبارات را مستقیماً درون یک رشته قرار دهید 
-            //این کار باعث ساده‌تر شدن قالب‌بندی رشته‌ها و بهبود خوانایی کد می‌شود.
+            Console.WriteLine($"Mirror numbers between {m} and {n}:");
 
             // Loop through each number between m and n
-            for (int i = Math.Min(m, n); i <= Math.Max(m, n); i++) /*The expression(Math.Min(m, n) calculates the smaller value between m and n and places it in variable i.*/
-                //And the expression i <= Math.Max(m, n) means that the value of i is compared with the larger value between m and n.This expression checks whether the value of i is less than or equal to the largest value between m and n.
+            for (int i = Math.Min(m, n); i <= Math.Max(m, n); i++)
             {
-                if (IsPrime(i))
+                if (IsMirrorNumber(i))
                 {
                     Console.WriteLine(i);
                 }
             }
         }
 
-        // Function to check if a number is prime
-        static bool IsPrime(int number)
+        // Function to check if a number is a mirror number
+        static bool IsMirrorNumber(int number)
         {
-            if (number <= 1)
-                return false;
+            int originalNumber = number;
+            int reversedNumber = 0;
 
-            for (int i = 2; i <= Math.Sqrt(number); i++) 
-                //The expression i <= Math.Sqrt(number) means that the value of i is compared with the square root of number.This expression checks whether the value of i is less than or equal to the square root of number.
+            // Reverse the number
+            while (number > 0)
             {
-                if (number % i == 0)
-                    return false;
+                int digit = number % 10;
+                //Here, a variable named digit is defined that stores the result number % 10.
+                reversedNumber = reversedNumber * 10 + digit;
+                number /= 10;
             }
 
-            return true;
+            // A mirror number is equal to its reverse
+            return originalNumber == reversedNumber;
+            //return is used to exit the function and return a value.
+
         }
     }
 }
